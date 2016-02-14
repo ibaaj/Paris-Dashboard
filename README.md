@@ -38,7 +38,7 @@ To communicate with my Arduino board, I use simply the ```screen``` shell functi
 ### Get RATP schedules 📋 and alerts 💩 in realtime 🌟
 
 #### GTFS Data
-You can parse the STIF GTFS ("*General Transit Feed Specification*") Data (CSV files) which contains all the STIF schedules for 3 next weeks available [here](opendata.stif.info/explore/dataset/offre-horaires-tc-gtfs-idf/table/) (70MB compressed, +500MB uncompressed).
+You can parse the STIF GTFS ("*General Transit Feed Specification*") Data (CSV files) which contains all the STIF schedules for 3 next weeks available [here](opendata.stif.info/explore/dataset/offre-horaires-tc-gtfs-idf/table/) (70MB compressed, +500MB uncompressed). It's how the CityMapper app works.
 
 It's a little bit difficult to understand how the data is linked 🔬, but you will find the *station-id* of your station in `stops.txt`, all the *stop schedules* (but not the full date, just hh:mm:ss) of your station in `stop_times.txt` (and all the trips), the *service-id* of each trip in `trips.txt` and finally *the date* (yyyymmdd, linked with that last data, in `calendar.txt` or `calendar_dates.txt`).
  
@@ -137,7 +137,7 @@ They always use the same sentences 😊 :
 ![grep RER A](grepRERA.png)
 
 #### Wap 💥 
-You can "grep" the RATP wap site, but it's clearly not adviced ❗️ -  the app "CheckMyMetro" got a lot of issues using this way with RATP. 
+You can "grep" the RATP wap site, but it's clearly not adviced ❗️ -  the "CheckMyMetro" app got a lot of issues using this way with RATP. 
 
 ### Get the number of available bikes 🚲 in a Velib station
 
