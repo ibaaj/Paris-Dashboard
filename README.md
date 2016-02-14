@@ -1,6 +1,6 @@
 #Paris Dashboard ⚡️
 
-🌀 Display the Paris Metro schedules 🚉 and the number of Velibs 🚲 (bicycle-system in Paris) available just near my home 😌.
+🌀 Display the Paris Metro schedules 🚉 and the number of Velibs 🚲  (bicycle-system) available just near my home 😌.
 
 ![](front.jpg)
 
