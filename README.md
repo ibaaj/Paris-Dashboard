@@ -142,7 +142,7 @@ You can "grep" the RATP wap site, but it's clearly not adviced ❗️ -  the "Ch
 
 ✏️ Register an account [here](https://developer.jcdecaux.com) and get an API key 🔑.
 
-You can get what you want with a simple query (edit *STATIONID* and *KEY* :
+You can get what you want with a simple query (edit *STATIONID* and *KEY*) :
 
 ```bash
 URL_VELIB="https://api.jcdecaux.com/vls/v1/stations/{STATIONID}?contract=paris&apiKey={KEY}"
