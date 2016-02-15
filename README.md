@@ -11,8 +11,7 @@ As "4-digit 7-segment display" 💫 I bought 3x TM1637 (3*~8€), which requires
 
 ![](back.jpg)
 
-<img align="left" src="./TM1637.jpg">
-<img align="right" src="./TM1637.gif">
+![](TM1637.jpg)
 
 
 It's very easy to communicate 📢 with a TM1637.
@@ -105,8 +104,6 @@ Help finding a *station-id* 🔎 :
 
 >You need to find the station id of each end of your line, and your station.
 
-
-
 To detect if an issue happened 🔶, you can use the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and get all the new tweets of one RATP line.
 As they always use the same sentences, you will be able to detect if there is a problem or not, or when it has disappeared.
 
@@ -162,3 +159,5 @@ cut -d : -f2 | cut -d , -f1;
 If you have any question, open an issue.
 
 ![License](./license.png)
+
+## Images
