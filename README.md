@@ -159,5 +159,3 @@ cut -d : -f2 | cut -d , -f1;
 If you have any question, open an issue.
 
 ![License](./license.png)
-
-## Images
