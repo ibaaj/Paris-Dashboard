@@ -58,7 +58,7 @@ while IFS= read -r line
 do
   TRIP_ID=$(echo $line | cut -d , -f1);
   TRIP_TIME=$(echo $line | cut -d , -f2);
-  START_FROM=$(grep $TRIP_ID stop_times.txt |head -n 1 | cut -d , -f4 | cut -d : -f2);
+  START_FROM=$(grep $TRIP_ID stop_times.txt |head -n 1 | awk -F ',' '{ print $4 }' | cut -d : -f2);
   SERVICE_ID=$(grep $TRIP_ID trips.txt |cut -d , -f2);
   TRIP_DATE=$(grep "^$SERVICE_ID," calendar.txt | cut -d , -f9);
   if [[ "$TRIP_DATE" = "" ]]; then
