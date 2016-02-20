@@ -148,7 +148,7 @@ You can get what you want with a simple query (edit *STATIONID* and *KEY*) :
 URL_VELIB="https://api.jcdecaux.com/vls/v1/stations/{STATIONID}?contract=paris&apiKey={KEY}"
 curl --silent "$URL_VELIB" 2>&1 \
 | grep -E -o "\"available_bikes\":[0-9]+," | \
-cut -d : -f2 | cut -d , -f1;
+| awk -F ':' '{ print $2 }' | cut -d , -f1;
 ```
 
 
