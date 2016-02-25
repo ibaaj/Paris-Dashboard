@@ -39,70 +39,22 @@ To communicate with my Arduino board, I use simply the ```screen``` shell functi
 ### Get RATP schedules 📋 and alerts 💩 in realtime 🌟
 
 #### GTFS Data
-You can parse the STIF GTFS ("*General Transit Feed Specification*") Data (CSV files) which contains all the STIF schedules for 3 next weeks available [here](opendata.stif.info/explore/dataset/offre-horaires-tc-gtfs-idf/table/) (70MB compressed, +500MB uncompressed). It's how the CityMapper app works.
 
-It's a little bit difficult to understand how the data is linked 🔬, but you will find the *station-id* of your station in `stops.txt`, all the *stop schedules* (but not the full date, just hh:mm:ss) of your station in `stop_times.txt` (and all the trips), the *service-id* of each trip in `trips.txt` and finally *the date* (yyyymmdd, linked with that last data, in `calendar.txt` or `calendar_dates.txt`).
+Definition from Wikipedia (en)
+> A GTFS feed is a collection of CSV files (with extension .txt) contained within a .zip file. Together, the related CSV tables describe a transit system's scheduled operations. The specification is designed to be sufficient to provide trip planning functionality, but is also useful for other applications such as analysis of service levels and some general performance measures. GTFS only includes scheduled operations, and does not include real-time information. 
 
-Example to get all schedules of your station in timestamp format :
+##### Downloads
 
-```bash
-MY_STATION_ID=XXX;
-GOING_END_IDS=(XXX XXX); # must be an array, some line has 2 ends (13 for example)
-COMING_END_IDS=(XXX); # same
+  - [STIF GTFS](http://opendata.stif.info/explore/dataset/offre-horaires-tc-gtfs-idf/table/) - all the STIF schedules for 3 next weeks (70MB compressed, +500MB uncompressed)
+  - [RATP GTFS FULL](http://dataratp.opendatasoft.com/explore/dataset/offre-transport-de-la-ratp-format-gtfs/) - all the annual schedules 
+  - [RATP GTFS LINES](http://dataratp.download.opendatasoft.com/RATP_GTFS_LINES.zip) - a smaller package, divided by line 
 
-grep ":$MY_STATION_ID," stop_times.txt| cut -d, -f1 -f3 >> selected-stops.txt;
-sleep 1; # heavy
+It's a little bit difficult to understand how the data is linked 🔬, but you will find the *station-id* of your station in `stops.txt`, all the *stop schedules* (but not the full date, just hh:mm:ss) of your station in `stop_times.txt` (and all the trips)..
 
-file="selected-stops.txt"
-while IFS= read -r line
-do
-  TRIP_ID=$(echo $line | cut -d , -f1);
-  TRIP_TIME=$(echo $line | cut -d , -f2);
-  START_FROM=$(grep $TRIP_ID stop_times.txt |head -n 1 | awk -F ',' '{ print $4 }' | cut -d : -f2);
-  SERVICE_ID=$(grep $TRIP_ID trips.txt |cut -d , -f2);
-  TRIP_DATE=$(grep "^$SERVICE_ID," calendar.txt | cut -d , -f9);
-  if [[ "$TRIP_DATE" = "" ]]; then
-      TRIP_DATE=$(grep "^$SERVICE_ID," calendar_dates.txt | cut -d , -f2);
-  fi
+##### Parser 
 
-  HOUR=$(echo $TRIP_TIME | cut -d : -f1);
-  if [[ "${HOUR:0:1}" = "0" ]]; then
-    HOUR=${HOUR:1};
-  fi
+I recommend to use a parser to aggregate the data. I extracted them with ["Node-GTFS"](https://github.com/brendannee/node-gtfs) which contains a lot of methods to query for agencies, routes, stops and times. But you can easily find another one in another language.
 
-  if [[ "$HOUR" -ge "24" ]]; then
-    HOUR=$(($HOUR % 24));
-    MINUTE=$(echo $TRIP_TIME | cut -d : -f2);
-    TRIP_TIMESTAMP=$(date -d "$TRIP_DATE+1day $HOUR:$MINUTE:00" +%s);
-  else
-    TRIP_TIMESTAMP=$(date -d "$TRIP_DATE $TRIP_TIME" +%s);
-  fi
-done <"$file";
-```
-
-Help finding a *station-id* 🔎 :
-
->To get a station id, try a query like this (e.g with *Notre-Dame des Champs*, Line 12) :
-```cat stops.txt |grep "Notre-Dame des Champs"```
-*So Notre-Dame des Champs is 59516.*
-
->If you have multiple results, this example finding *Hôtel de Ville*, line 11 will help you :
-
->I will find the station id of *Mairie des Lilas* (one end of line 11, 59408)
->And execute this :
-> ```grep "StopPoint:59408" stop_times.txt |head -n 1```
-
->I will get one trip_id (the first number) let's say : 6887160121185
->and execute :
-
->```grep 6887160121185 stop_times.txt```
-
->I have all the stops of this metro (12), and I know that *Hôtel de Ville* is just before *Châtelet* (the last one)
->So *Hôtel de Ville* is 59639. Check it :
->```grep "StopPoint:59639" stops.txt```
->If you have no result, you may have a typo problem.
-
->You need to find the station id of each end of your line, and your station.
 
 To detect if an issue happened 🔶, you can use the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and get all the new tweets of one RATP line.
 As they always use the same sentences, you will be able to detect if there is a problem or not, or when it has disappeared.
@@ -135,8 +87,48 @@ They always use the same sentences 😊 :
 
 ![grep RER A](grepRERA.png)
 
+Twitter accounts :
+
+- [RER A](https://twitter.com/RERA_RATP)
+- [RER B](https://twitter.com/RERB)
+- [RER C](https://twitter.com/RERC_SNCF)
+- [RER D](https://twitter.com/RERD_SNCF)
+- [RER E](https://twitter.com/RERE_SNCF)
+- [Line 1](https://twitter.com/Ligne1_RATP)
+- [Line 2](https://twitter.com/Ligne2_RATP)
+- [Line 3](https://twitter.com/Ligne3_RATP)
+- [Line 4](https://twitter.com/Ligne4_RATP)
+- [Line 5](https://twitter.com/Ligne5_RATP)
+- [Line 6](https://twitter.com/Ligne6_RATP)
+- [Line 7](https://twitter.com/Ligne7_RATP)
+- [Line 8](https://twitter.com/Ligne8_RATP) 
+- [Line 9](https://twitter.com/Ligne9_RATP)
+- [Line 10](https://twitter.com/Ligne10_RATP)
+- [Line 11](https://twitter.com/Ligne11_RATP)
+- [Line 12](https://twitter.com/Ligne12_RATP)
+- [Line 13](https://twitter.com/Ligne13_RATP)
+- [Line 14](https://twitter.com/Ligne14_RATP)
+- [Tram 1](https://twitter.com/T1_RATP)
+- [Tram 2](https://twitter.com/T2_RATP)
+- [Tram 3A](https://twitter.com/T3a_RATP)
+- [Tram 3B](https://twitter.com/T3b_RATP)
+- Tram 4 (no account)
+- [Tram 5](https://twitter.com/T5_RATP) 
+- [Tram 6](https://twitter.com/T6_RATP)
+- [Tram 7](https://twitter.com/T7_RATP)
+- [Tram 8](https://twitter.com/T8_RATP)
+
+
+
+
 #### Wap 💥
 You can "grep" the RATP wap site, but it's clearly not adviced ❗️ -  the "CheckMyMetro" app got a lot of issues using this way with RATP.
+
+```bash
+curl --silent -A "Mozilla/5.0" "http://wap.ratp.fr/{YOURURI}" 2>&1 | grep -E -o "([0-9]+) mn"
+```
+
+
 
 ### Get the number of available bikes 🚲 in a Velib station
 
