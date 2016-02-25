@@ -55,6 +55,7 @@ It's a little bit difficult to understand how the data is linked 🔬, but you w
 
 I recommend to use a parser to aggregate the data. I extracted them with ["Node-GTFS"](https://github.com/brendannee/node-gtfs) which contains a lot of methods to query for agencies, routes, stops and times. But you can easily find another one in another language.
 
+#### Real time
 
 To detect if an issue happened 🔶, you can use the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and get all the new tweets of one RATP line.
 As they always use the same sentences, you will be able to detect if there is a problem or not, or when it has disappeared.
