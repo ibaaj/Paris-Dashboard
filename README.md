@@ -151,4 +151,9 @@ curl --silent "$URL_VELIB" 2>&1 \
 
 If you have any question, open an issue.
 
+M.Berchon invited me to introduce this project at the « Paris Hardware Startup Meetup #2 »
+
+![Paris Hardware Startup Meetup #2](./608_10209047086560675_6615119933942145195_n.jpg)
+![Paris Hardware Startup Meetup #2](./12742838_10209047086800681_4717628274478051458_n.jpg)
+
 ![License](./license.png)
