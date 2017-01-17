@@ -1,3 +1,7 @@
+### update
+
+2017 : Now, the RATP Group is letting everyone access their realtime API : I will release a proper code and tutorial for this project ASAP.
+
 #Paris Dashboard ⚡️
 
 🌀 Display the Paris Metro schedules 🚉 and the number of Velibs 🚲  (bicycle-system) available just near my home 😌.
